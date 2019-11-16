@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="MyStyle.css"> <!-- The style sheet IS referenced (for the non-Highcharts at least). -->
+    <title>TabName</title> <!-- appears in the tab of the browser (tested with Chrome) -->
+</head>
+
+<body>
+    <h1>BodyTitle</h1> <!-- Appears bang on top left (unless I change the css in future) -->
+    <p>This is a really interesting paragraph.</p> <!-- A piece of HTML for old-times sake. -->
+    <form action="/FormHandler.php" method="post">
+        <div>
+            <label for="nameBeingInput">Name:</label> <!-- Links to the appropriate input.  Useful for mouse users. -->
+            <input type="text" id="nameBeingInput" name="whatTheUserPutInAsName" value="Suggested Name">
+            <!--
+                type - controls what type of validation will happen.  Changes appearance of dynamic keyboards (eg re @ button).
+                id - the element id as normal.
+                name - the name of the variable that will hold the user's input.
+                value - Actual default text suggested for the user's input.
+            -->
+        </div>
+        <div>
+            <label for="emailBeingInput">E-mail:</label>
+            <input type="email" id="emailBeingInput" name="whatTheUserPutInAsEmail">
+        </div>
+        <div>
+            <label for="messageBeingInput">Message:</label>
+            <textarea id="messageBeingInput" name="whatTheUserPutInAsMessage"></textarea>
+        </div>
+        <div class="button">
+            <button type="submit">Send your message</button>
+        </div>
+    </form>
+</body>
+
+</html>
