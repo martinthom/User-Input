@@ -3,34 +3,64 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="MyStyle.css"> <!-- The style sheet IS referenced (for the non-Highcharts at least). -->
+    <link rel="stylesheet" href="MyStyle.css"> <!-- The style sheet. -->
     <title>TabName</title> <!-- appears in the tab of the browser (tested with Chrome) -->
 </head>
 
 <body>
     <h1>BodyTitle</h1> <!-- Appears bang on top left (unless I change the css in future) -->
-    <p>This is a really interesting paragraph.</p> <!-- A piece of HTML for old-times sake. -->
+    <p>This is a really interesting paragraph.</p>
+
+    <!-- This form handler needs the corresponding php ready and waiting on the server. -->
     <form action="/FormHandler.php" method="post">
         <div>
             <label for="nameBeingInput">Name:</label> <!-- Links to the appropriate input.  Useful for mouse users. -->
-            <input type="text" id="nameBeingInput" name="whatTheUserPutInAsName" value="Suggested Name">
-            <!--
+            <input type="text" id="nameBeingInput" name="whatTheUserPutInAsName"
+                value="your text" placeholder="Between X and Y characters."
+                pattern = "^.{5,7}$"> <!-- The regex is: start-of-line  any char  {5-to-7-times}  end-line -->
+                <!-- In this example the 'pattern' will be overwritten by javascript. -->
+            <!-- 
+                I started by using minlength="10" maxlength="12" which do work OK but they are values that
+                cannot be read or overwriten by Javascrip (it seems - by my tests).  I imagine they are immediately
+                used and then forgotten as values.  Reading them creates "undefined" (using the below).
+                var myMinLength = document.getElementById('nameBeingInput').minlength; 
+            -->
+            <!-- See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
                 type - controls what type of validation will happen.  Changes appearance of dynamic keyboards (eg re @ button).
                 id - the element id as normal.
                 name - the name of the variable that will hold the user's input.
                 value - Actual default text suggested for the user's input.
+                placeholder - The shadowy text that appears when a form is blank.
+                required - Forces the field to contain something.
+                pattern - the regex (https://regex101.com/) that you want the input to match.
             -->
         </div>
+
+        <script> // A small section to attempt to overwrite some values in the HTML elements.
+            var minl = "4";  // Watch out for those pesky quotes for numnbers!  This is correct.
+            var maxl = "9"; // Watch out for those pesky quotes for numnbers!  This is correct.
+            document.getElementById('nameBeingInput').pattern = "^.{" + minl + "," + maxl + "}$";
+            var someText = document.getElementById('nameBeingInput').value;
+            document.getElementById('nameBeingInput').value = "Text" + minl + "-" + maxl;
+            document.getElementById('nameBeingInput').placeholder = "For " + someText + " use " + minl + " to " + maxl + " characters.";
+            // NOTE that this overwrite will be overwritten if the user pushes the "reset" button below!
+        </script>
+
         <div>
             <label for="emailBeingInput">E-mail:</label>
-            <input type="email" id="emailBeingInput" name="whatTheUserPutInAsEmail">
+            <input type="email" id="emailBeingInput" name="whatTheUserPutInAsEmail"
+                value="me@somewhere.com">
         </div>
         <div>
             <label for="messageBeingInput">Message:</label>
-            <textarea id="messageBeingInput" name="whatTheUserPutInAsMessage"></textarea>
+            <textarea required id="messageBeingInput" name="whatTheUserPutInAsMessage"
+                placeholder="You will need to put in some text"
+            ></textarea>
         </div>
+
         <div class="button">
             <button type="submit">Send your message</button>
+            <button type="reset">Go Back to defaults</button> <!-- Condiered bad UX practice these days. -->
         </div>
     </form>
 </body>
